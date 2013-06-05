@@ -21,51 +21,44 @@ fi
 BASE=../../../vendor/$VENDOR/$DEVICE/proprietary
 rm -rf $BASE/*
 
-adb root
-adb wait-for-device
-
-adb pull /sbin/mfgsrv $BASE/sbin/mfgsrv
-adb pull /sbin/sfc $BASE/sbin/sfc
-adb pull /sbin/tpd $BASE/sbin/tpd
-
 for FILE in `egrep -v '(^#|^$)' ../$DEVICE/device-proprietary-files.txt`; do
-  echo "Extracting /$FILE ..."
+  echo "Extracting /system/$FILE ..."
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /$FILE $BASE/$FILE
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/$FILE $BASE/$FILE
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
 for FILE in `egrep -v '(^#|^$)' ../m7-common/proprietary-files.txt`; do
-  echo "Extracting /$FILE ..."
+  echo "Extracting /system/$FILE ..."
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /$FILE $BASE/$FILE
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/$FILE $BASE/$FILE
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
 BASE=../../../vendor/$VENDOR/m7-common/proprietary
 rm -rf $BASE/*
 for FILE in `egrep -v '(^#|^$)' ../m7-common/common-proprietary-files.txt`; do
-  echo "Extracting /$FILE ..."
+  echo "Extracting /system/$FILE ..."
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /$FILE $BASE/$FILE
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/$FILE $BASE/$FILE
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
