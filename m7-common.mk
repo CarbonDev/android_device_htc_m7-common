@@ -94,6 +94,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libaudioamp
 
+## Build DSPManager to replace Beats audio eq
+PRODUCT_PACKAGES += \
+    DSPManager \
+    libcyanogen-dsp \
+    audio_effects.conf \
+
 # Camera
 PRODUCT_PACKAGES += \
     camera.msm8960
