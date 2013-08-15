@@ -29,6 +29,12 @@
 
 TARGET_SPECIFIC_HEADER_PATH := device/htc/m7-common/include
 
+# Custom init.rc for htc prop library boot classpath
+TARGET_PROVIDES_INIT_RC := true
+
+# Arch
+TARGET_CPU_VARIANT := krait
+
 # Kernel
 BOARD_KERNEL_BASE := 0x80600000
 BOARD_KERNEL_PAGESIZE := 2048
