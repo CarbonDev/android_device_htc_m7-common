@@ -8,7 +8,6 @@ import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.carrier.rc
-import /init.partitions.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -26,6 +25,14 @@ on early-init
     # Create mountpoint so Dalvik can mark as slave in zygotes.
     mount tmpfs tmpfs /storage mode=0050,uid=0,gid=1028
 
+    # Allow system UID to setenforce and set booleans.
+    chown system system /selinux/enforce
+    chown system system /sys/fs/selinux/enforce
+    chown -R system system /selinux/booleans
+    chown -R system system /sys/fs/selinux/booleans
+    chown system system /selinux/commit_pending_bools
+    chown system system /sys/fs/selinux/commit_pending_bools
+
 on init
 
 sysclktz 0
@@ -42,7 +49,7 @@ loglevel 3
     export ANDROID_STORAGE /storage
     export ASEC_MOUNTPOINT /mnt/asec
     export LOOP_MOUNTPOINT /mnt/obb
-    export BOOTCLASSPATH /system/framework/core.jar:/system/framework/core-junit.jar:/system/framework/okhttp.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/mms-common.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/apache-xml.jar:/system/framework/htcirlibs.jar
+    export BOOTCLASSPATH /system/framework/core.jar:/system/framework/core-junit.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/mms-common.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/apache-xml.jar:/system/framework/htcirlibs.jar
     export TERMINFO /system/etc/terminfo
     export TERM linux
 
@@ -112,7 +119,6 @@ loglevel 3
     mkdir /dev/cpuctl
     mount cgroup none /dev/cpuctl cpu
     chown system system /dev/cpuctl
-    chmod 0660 /dev/cpuctl
     chown system system /dev/cpuctl/tasks
     chmod 0660 /dev/cpuctl/tasks
     write /dev/cpuctl/cpu.shares 1024
@@ -196,9 +202,6 @@ on post-fs-data
     # We restorecon /data in case the userdata partition has been reset.
     restorecon /data
 
-    # Set access for camera
-    chmod 0666 /dev/video0
-
     # Create dump dir and collect dumps.
     # Do this before we mount cache so eventually we can use cache for
     # storing dumps on platforms which do not have a dedicated dump partition.
@@ -218,6 +221,7 @@ on post-fs-data
     # create basic filesystem structure
     mkdir /data/misc 01771 system misc
     mkdir /data/misc/adb 02750 system shell
+    mkdir /data/misc/audit 02750 audit system
     mkdir /data/misc/bluedroid 0770 bluetooth net_bt_stack
     mkdir /data/misc/bluetooth 0770 system system
     mkdir /data/misc/keystore 0700 keystore keystore
@@ -226,10 +230,8 @@ on post-fs-data
     mkdir /data/misc/zoneinfo 0775 system system
     mkdir /data/misc/vpn 0770 system vpn
     mkdir /data/misc/systemkeys 0700 system system
-    mkdir /data/misc/vpn/profiles 0770 system system
     # give system access to wpa_supplicant.conf for backup and restore
     mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
     chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/local 0751 root root
     mkdir /data/misc/media 0700 media media
@@ -247,19 +249,10 @@ on post-fs-data
     mkdir /data/ssh/empty 0700 root root
     mkdir /data/radio 0770 radio radio
 
-    # Setup paths used for socket communication with the dhcp daemon (dhcpd)
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
-
-    # create dalvik-cache, so as to enforce our permissions
+    # create dalvik-cache and double-check the perms, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 system system
-    # fix permissions if dalvik-cache was there before
     chown system system /data/dalvik-cache
     chmod 0771 /data/dalvik-cache
-
-    mkdir /cache/dalvik-cache 0771 system system
-    chown system system /cache/dalvik-cache
-    chmod 0771 /cache/dalvik-cache
 
     # create resource-cache and double-check the perms
     mkdir /data/resource-cache 0771 system system
@@ -268,13 +261,6 @@ on post-fs-data
 
     # create the lost+found directories, so as to enforce our permissions
     mkdir /data/lost+found 0770 root root
-    mkdir /cache/lost+found 0770 root root
-
-    # Fix permissions in case lost+found existed before
-    chown root root /data/lost+found
-    chmod 0770 /data/lost+found
-    chown root root /cache/lost+found
-    chmod 0770 /cache/lost+found
 
     # create directory for DRM plug-ins - give drm the read/write access to
     # the following directory.
@@ -288,7 +274,7 @@ on post-fs-data
     symlink /data/data/com.android.shell/files/bugreports /data/bugreports
 
     # Separate location for storing security policy files on data
-    mkdir /data/security 0700 system system
+    mkdir /data/security 0711 system system
 
     # If there is no fs-post-data action in the init.<device>.rc file, you
     # must uncomment this line, otherwise encrypted filesystems
@@ -297,7 +283,7 @@ on post-fs-data
     #setprop vold.post_fs_data_done 1
 
 # Include extra init file
-    import /init.cfx.rc
+    import /init.carbon.rc
 
 on boot
     # interactive governor
@@ -357,49 +343,15 @@ on boot
 # set RLIMIT_NICE to allow priorities from 19 to -20
     setrlimit 13 40 40
 
-# Define the oom_adj values for the classes of processes that can be
-# killed by the kernel.  These are used in ActivityManagerService.
-    setprop ro.FOREGROUND_APP_ADJ 0
-    setprop ro.VISIBLE_APP_ADJ 1
-    setprop ro.PERCEPTIBLE_APP_ADJ 2
-    setprop ro.HEAVY_WEIGHT_APP_ADJ 3
-    setprop ro.SECONDARY_SERVER_ADJ 4
-    setprop ro.BACKUP_APP_ADJ 5
-    setprop ro.HOME_APP_ADJ 6
-    setprop ro.HIDDEN_APP_MIN_ADJ 7
-    setprop ro.EMPTY_APP_ADJ 15
-
-# Define the memory thresholds at which the above process classes will
-# be killed.  These numbers are in pages (4k).
-    setprop ro.FOREGROUND_APP_MEM 2048
-    setprop ro.VISIBLE_APP_MEM 3072
-    setprop ro.PERCEPTIBLE_APP_MEM 4096
-    setprop ro.HEAVY_WEIGHT_APP_MEM 4096
-    setprop ro.SECONDARY_SERVER_MEM 6144
-    setprop ro.BACKUP_APP_MEM 6144
-    setprop ro.HOME_APP_MEM 6144
-    setprop ro.HIDDEN_APP_MEM 7168
-    setprop ro.EMPTY_APP_MEM 8192
-
-# Write value must be consistent with the above properties.
-# Note that the driver ony supports 6 slots so we have combined some of
-# the classes into the same memory level; the associated processes of higher
-# classes will still be killed first.
-    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,4,7,15
-
 # Memory management.  Basic kernel parameters, and allow the high
 # level system server to be able to adjust the kernel OOM driver
 # parameters to match how it is managing things.
     write /proc/sys/vm/overcommit_memory 1
     write /proc/sys/vm/min_free_order_shift 4
-    write /sys/module/lowmemorykiller/parameters/minfree 2048,3072,4096,6144,7168,8192
     chown root system /sys/module/lowmemorykiller/parameters/adj
     chmod 0664 /sys/module/lowmemorykiller/parameters/adj
     chown root system /sys/module/lowmemorykiller/parameters/minfree
     chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
-
-    # Set init forked children's oom_adj
-    write /proc/1/oom_score_adj -16
 
     # Tweak background writeout
     write /proc/sys/vm/dirty_expire_centisecs 200
@@ -548,6 +500,8 @@ service ueventd /sbin/ueventd
 on property:selinux.reload_policy=1
     restart ueventd
     restart installd
+    chown -R system system /selinux/booleans
+    chown -R system system /sys/fs/selinux/booleans
 
 service console /system/bin/sh
     class core
@@ -556,11 +510,11 @@ service console /system/bin/sh
     user shell
     group log
 
+service auditd /system/bin/auditd -k
+    class main
+
 on property:ro.debuggable=1
     start console
-
-on property:ro.secure=0
-   start console
 
 # adbd is controlled via property triggers in init.<platform>.usb.rc
 service adbd /sbin/adbd
