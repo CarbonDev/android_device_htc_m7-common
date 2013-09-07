@@ -477,9 +477,10 @@ service cir_fw_update /system/bin/cir_fw_update -u /system/etc/cir.img
     oneshot
 # HTC CIR firmware update - END
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
-    class main
-    user root
+# NOT IN USED ATM
+# service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+#    class main
+#    user root
 
 service post-boot /system/bin/sh /system/etc/init.post_boot.sh
     user root
