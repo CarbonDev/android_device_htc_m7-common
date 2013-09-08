@@ -501,6 +501,11 @@ service netmgrd /system/bin/netmgrd
 service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
     class late_start
 
+service qrngd /system/bin/qrngd -f
+    class main
+    user root
+    group root
+
 service thermald /system/bin/thermald
     class main
     user root
