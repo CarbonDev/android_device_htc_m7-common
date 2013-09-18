@@ -179,6 +179,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.gps.qmienabled=true \
     ro.baseband.arch=mdm \
     ro.opengles.version=196608 \
+    ro.qualcomm.cabl=0 \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=3000
 
