@@ -44,6 +44,7 @@ TARGET_KERNEL_SOURCE := kernel/htc/m7
 COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
 
 # Audio
+BOARD_HAVE_LOW_LATENCY_AUDIO := true # use low latency audio
 BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
 BOARD_USES_SEPERATED_AUDIO_INPUT := true  # use distinct voice recognition use case
 BOARD_USES_SEPERATED_CAMCORDER := true  # use distinct camcorder use cases
@@ -51,6 +52,8 @@ BOARD_USES_SEPERATED_VOICE_SPEAKER := true  # use distinct voice speaker use cas
 BOARD_USES_SEPERATED_VOIP := true  # use distinct VOIP use cases
 BOARD_AUDIO_AMPLIFIER := device/htc/m7-common/libaudioamp
 BOARD_HAVE_HTC_CSDCLIENT := true
+TARGET_USES_QCOM_MM_AUDIO := true
+TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
