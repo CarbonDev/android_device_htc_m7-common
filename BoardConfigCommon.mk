@@ -36,7 +36,7 @@ TARGET_CPU_VARIANT := krait
 BOARD_KERNEL_BASE := 0x80600000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01600000
 TARGET_KERNEL_CONFIG := crts_m7_defconfig
 TARGET_KERNEL_SOURCE := kernel/htc/m7
 
@@ -46,6 +46,7 @@ COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
 # Audio
 BOARD_HAVE_LOW_LATENCY_AUDIO := true # use low latency audio
 BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
+BOARD_USES_LEGACY_ALSA_AUDIO:= false
 BOARD_USES_SEPERATED_AUDIO_INPUT := true  # use distinct voice recognition use case
 BOARD_USES_SEPERATED_CAMCORDER := true  # use distinct camcorder use cases
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true  # use distinct voice speaker use case
