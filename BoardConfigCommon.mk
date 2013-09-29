@@ -29,6 +29,10 @@
 
 TARGET_SPECIFIC_HEADER_PATH := device/htc/m7-common/include
 
+# Platform
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno320
+BOARD_EGL_CFG := device/htc/m7-common/configs/egl.cfg
+
 # Arch
 TARGET_CPU_VARIANT := krait
 
