@@ -1602,22 +1602,24 @@ EndSection
 SectionDevice
 	Name "Headset"
 
-	EnableSequence
-		'SLIM_0_TX Channels':0:One
-		'SLIM TX1 MUX':0:DEC1
-		'DEC1 MUX':0:ADC2
-		'ADC2 Volume':1:100
+        EnableSequence
+                'SLIM_0_TX Channels':0:One
+                'SLIM TX7 MUX':0:DEC5
+                'DEC5 MUX':0:ADC2
+                'DEC5 Volume':2:54
+                'ADC2 Volume':1:100
 		'MICBIAS2 CAPLESS Switch':1:1
-	EndSequence
+        EndSequence
 
-	DisableSequence
-		'SLIM TX1 MUX':0:ZERO
-		'DEC1 MUX':0:ZERO
-		'ADC2 Volume':1:0
+        DisableSequence
+                'SLIM TX7 MUX':0:ZERO
+                'DEC5 MUX':0:ZERO
+                'DEC5 Volume':2:0
+                'ADC2 Volume':1:0
 		'MICBIAS2 CAPLESS Switch':1:0
-	EndSequence
+        EndSequence
 
-	ACDBID	8:2
+	ACDBID	304:2
 	EffectsMixerCTL "SRS TruMedia"
 
 EndSection

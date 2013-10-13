@@ -31,6 +31,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/htc/m7-common/include
 
 # Platform
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno320
+TARGET_BOARD_PLATFORM_VARIANT := s600
 BOARD_EGL_CFG := device/htc/m7-common/configs/egl.cfg
 
 # Arch
@@ -49,15 +50,19 @@ COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
 
 # Audio
 BOARD_HAVE_LOW_LATENCY_AUDIO := true # use low latency audio
+BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
 BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
 BOARD_USES_LEGACY_ALSA_AUDIO:= false
 BOARD_USES_SEPERATED_AUDIO_INPUT := true  # use distinct voice recognition use case
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true  # use distinct voice speaker use case
 BOARD_USES_SEPERATED_VOIP := true  # use distinct VOIP use cases
 BOARD_AUDIO_AMPLIFIER := device/htc/m7-common/libaudioamp
-BOARD_HAVE_HTC_CSDCLIENT := true
 TARGET_USES_QCOM_MM_AUDIO := true
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+
+# FM Radio
+HAVE_FM_RADIO := true
+COMMON_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
@@ -76,10 +81,12 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 
 # We have the new GPS driver
 BOARD_HAVE_NEW_QC_GPS := true
-TARGET_NO_RPC := true
 
 # Tuning
 BOARD_HARDWARE_CLASS := device/htc/m7-common/cmhw
+
+# Protobuf-c
+PROTOBUF_SUPPORTED := true
 
 # Wifi
 BOARD_WLAN_DEVICE                := bcmdhd

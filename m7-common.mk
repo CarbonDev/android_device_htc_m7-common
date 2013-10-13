@@ -118,6 +118,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
 
+# IRDA
+#PRODUCT_PACKAGES += \
+#    irda.msm8960
+
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8960
@@ -174,10 +178,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.nfc.fw_download=true \
     debug.nfc.fw_boot_download=false \
     debug.nfc.se=true \
+    hwui.use_gpu_pixel_buffers=true \
     ro.nfc.port=I2C \
     ro.sf.lcd_density=480 \
     persist.camera.tuning_spec=htc \
     persist.gps.qmienabled=true \
+    persist.gps.qc_nlp_in_use=0 \
+    persist.gralloc.cp.level3=1 \
     persist.timed.enable=true \
     ro.baseband.arch=mdm \
     ro.opengles.version=196608 \

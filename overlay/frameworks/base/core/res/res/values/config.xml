@@ -243,4 +243,8 @@
 
     <!-- Speed up audio on mt call -->
     <bool name="config_speed_up_audio_on_mt_calls">true</bool>
+
+    <!-- Irda support -->
+    <!--bool name="config_enableIrdaManagerService">true</bool-->
+
 </resources>

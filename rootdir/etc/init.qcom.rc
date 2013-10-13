@@ -157,6 +157,12 @@ on init
     chmod 0660 /sys/class/htc_g_sensor/g_sensor/enable_cir_interrupt
     chmod 0660 /sys/class/bma250/bma250/enable
 
+    # irda support
+    #chown irda irda /sys/class/htc_cir/cir/reset_cir
+    #chmod 0660 /sys/class/htc_cir/cir/reset_cir
+    #chown irda irda /sys/class/htc_cir/cir/enable_cir
+    #chmod 0660 /sys/class/htc_cir/cir/enable_cir
+
     # Proximity sensor
     chown system radio /sys/class/optical_sensors/proximity/PhoneApp_status
     chmod 0660 /sys/class/optical_sensors/proximity/PhoneApp_status
@@ -301,6 +307,9 @@ on boot
     mkdir /data/misc/dhcp 0755 wifi wifi
     chown dhcp dhcp /data/misc/dhcp
     chmod 0770 /data/misc/wifi
+
+    # remove SUID bit for iproute2 ip tool
+    chmod 0755 /system/bin/ip
 
     write /sys/devices/i2c-3/3-0024/cyttsp_update_fw 1
 
