@@ -49,14 +49,13 @@ TARGET_KERNEL_SOURCE := kernel/htc/m7
 COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
 
 # Audio
-BOARD_HAVE_LOW_LATENCY_AUDIO := true # use low latency audio
-BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
 BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
-BOARD_USES_LEGACY_ALSA_AUDIO:= false
+BOARD_USES_LEGACY_ALSA_AUDIO:= false # prevent it using the old alsa
 BOARD_USES_SEPERATED_AUDIO_INPUT := true  # use distinct voice recognition use case
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true  # use distinct voice speaker use case
 BOARD_USES_SEPERATED_VOIP := true  # use distinct VOIP use cases
 BOARD_AUDIO_AMPLIFIER := device/htc/m7-common/libaudioamp
+BOARD_HAVE_NEW_QCOM_CSDCLIENT := true # use new qcom csd-client
 TARGET_USES_QCOM_MM_AUDIO := true
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
@@ -158,6 +157,8 @@ BOARD_CUSTOM_GRAPHICS := ../../../device/htc/m7-common/recovery/graphics.c
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_USERIMAGES_USE_EXT4 := true
+
+TARGET_RELEASETOOLS_EXTENSIONS := device/htc/m7-common
 
 # Charge mode
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode

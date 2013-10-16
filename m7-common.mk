@@ -122,10 +122,6 @@ PRODUCT_COPY_FILES += \
 #PRODUCT_PACKAGES += \
 #    irda.msm8960
 
-# Keystore
-PRODUCT_PACKAGES += \
-    keystore.msm8960
-
 # NFC
 PRODUCT_PACKAGES += \
     nfc.msm8960 \
@@ -162,13 +158,9 @@ endif
 PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
 
-# HTC IR Blaster resources
-PRODUCT_PACKAGES += \
-    CIRModule \
-    htcirlibs \
-    cir \
-    cir_fw_update \
-    libhtcirinterface_jni
+# PRODUCT_DEVICE override fix for m7 camera libs
+PRODUCT_COPY_FILES += \
+    device/htc/m7-common/scripts/device_prop.sh:system/bin/device_prop.sh
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb

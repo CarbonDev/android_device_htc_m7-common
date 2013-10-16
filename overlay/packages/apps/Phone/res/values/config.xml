@@ -26,9 +26,6 @@
     <bool name="has_in_call_noise_suppression">false</bool>
 
     <!-- Flag indicating if the tty is enabled -->
-    <bool name="tty_enabled">false</bool>
-
-    <!-- Flag indicating if hac is enabled -->
-    <bool name="hac_enabled">false</bool>
+    <bool name="tty_enabled">true</bool>
 
 </resources>

@@ -28,4 +28,8 @@
     <bool name="noFaceDetectOnFrontCamera">true</bool>
     <!-- Force use of profile video size -->
     <bool name="useProfileVideoSize">true</bool>
+    <!-- A certain beefy device has issues with video snapshots -->
+    <bool name="useVideoSnapshotWorkaround">true</bool>
+    <!-- Video HDR mode. Aggressively crashes on some hardware -->
+    <bool name="enableVideoHDR">true</bool>
 </resources>
