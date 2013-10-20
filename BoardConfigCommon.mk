@@ -164,9 +164,8 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/htc/m7-common
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 # Compiler Flags
-TARGET_GLOBAL_CFLAGS += -fmerge-all-constants -funsafe-math-optimizations -ftree-vectorize -mfloat-abi=softfp -mfpu=neon-vfpv4
-TARGET_GLOBAL_CPPFLAGS += -fmerge-all-constants -funsafe-math-optimizations -ftree-vectorize -mfloat-abi=softfp -mfpu=neon-vfpv4
-TARGET_EXTRA_CFLAGS += $(call cc-option,  -pipe)
+TARGET_GLOBAL_CFLAGS += -pipe -funsafe-math-optimizations -fno-short-enums -mfloat-abi=softfp -mfpu=neon
+TARGET_GLOBAL_CPPFLAGS += -pipe -funsafe-math-optimizations -fno-short-enums -mfloat-abi=softfp -mfpu=neon
 
 # inherit from the proprietary version
 -include vendor/htc/m7-common/BoardConfigVendor.mk
