@@ -2,6 +2,6 @@
 <resources>
 
     <!-- Whether can use advanced tools -->
-    <bool name="has_device_tools">true</bool>
+    <bool name="has_device_tools">false</bool>
 
 </resources>

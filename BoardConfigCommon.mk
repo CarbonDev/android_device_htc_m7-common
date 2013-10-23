@@ -45,9 +45,6 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01600000
 TARGET_KERNEL_CONFIG := crts_m7_defconfig
 TARGET_KERNEL_SOURCE := kernel/htc/m7
 
-# Flags
-COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
-
 # Audio
 BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
 BOARD_USES_LEGACY_ALSA_AUDIO:= false # prevent it using the old alsa
